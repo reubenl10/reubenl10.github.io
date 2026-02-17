@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reuben Lopez | Data Scientist</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #ffffff;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: #1a2332;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 0.5rem 1.5rem;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            color: #14b8a6;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1a2332 0%, #2d3e50 100%);
+            color: #ffffff;
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: #14b8a6;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .hero .location {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            margin-bottom: 2rem;
+        }
+
+        .hero .tagline {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2.5rem auto;
+            color: #e2e8f0;
+            line-height: 1.8;
+        }
+
+        .hero-cta {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-btn {
+            padding: 0.85rem 2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+
+        .hero-btn-primary {
+            background-color: #14b8a6;
+            color: #ffffff;
+        }
+
+        .hero-btn-primary:hover {
+            background-color: #0d9488;
+            transform: translateY(-2px);
+        }
+
+        .hero-btn-secondary {
+            background-color: transparent;
+            color: #ffffff;
+            border: 2px solid #ffffff;
+        }
+
+        .hero-btn-secondary:hover {
+            background-color: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Section Styling */
+        section {
+            padding: 5rem 2rem;
+        }
+
+        section:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: #1a2332;
+            font-weight: 700;
+        }
+
+        /* About Section */
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .about-intro {
+            font-size: 1.15rem;
+            color: #475569;
+            line-height: 1.9;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-secondary {
+            font-size: 1.05rem;
+            color: #64748b;
+            line-height: 1.8;
+            margin-bottom: 3rem;
+        }
+
+        .competencies {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .competency-card {
+            background: #ffffff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-top: 3px solid #14b8a6;
+        }
+
+        .competency-card h3 {
+            color: #1a2332;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .competency-card ul {
+            list-style: none;
+            color: #64748b;
+        }
+
+        .competency-card li {
+            padding: 0.3rem 0;
+            padding-left: 1.2rem;
+            position: relative;
+            font-size: 0.95rem;
+        }
+
+        .competency-card li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #14b8a6;
+        }
+
+        /* Experience Section */
+        .experience-item {
+            max-width: 900px;
+            margin: 0 auto 2.5rem auto;
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.4rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .experience-header h3 {
+            color: #1a2332;
+            font-size: 1.4rem;
+        }
+
+        .experience-header .duration {
+            color: #14b8a6;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .experience-item .company {
+            color: #64748b;
+            font-size: 1rem;
+            margin-bottom: 1.2rem;
+            font-weight: 500;
+        }
+
+        .experience-item ul {
+            list-style: none;
+            color: #475569;
+        }
+
+        .experience-item li {
+            padding: 0.45rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            line-height: 1.7;
+            font-size: 0.97rem;
+        }
+
+        .experience-item li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #14b8a6;
+            font-weight: bold;
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 3px solid #14b8a6;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+
+        .project-card h3 {
+            color: #1a2332;
+            margin-bottom: 0.75rem;
+            font-size: 1.3rem;
+        }
+
+        .project-card p {
+            color: #64748b;
+            margin-bottom: 1.2rem;
+            line-height: 1.7;
+            font-size: 0.97rem;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.82rem;
+            font-weight: 500;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.2rem;
+        }
+
+        .project-link {
+            color: #14b8a6;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .project-link:hover {
+            color: #0d9488;
+        }
+
+        .placeholder-card {
+            background: #f1f5f9;
+            border-radius: 8px;
+            padding: 3rem 2rem;
+            text-align: center;
+            border: 2px dashed #cbd5e1;
+            color: #94a3b8;
+            font-style: italic;
+            grid-column: 1 / -1;
+        }
+
+        /* Blog Section */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .blog-card {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+
+        .blog-card .date {
+            color: #14b8a6;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .blog-card h3 {
+            color: #1a2332;
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+            line-height: 1.4;
+        }
+
+        .blog-card p {
+            color: #64748b;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .blog-card .read-more {
+            display: inline-block;
+            margin-top: 1rem;
+            color: #14b8a6;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: linear-gradient(135deg, #1a2332 0%, #2d3e50 100%);
+            color: #ffffff;
+        }
+
+        .contact h2 {
+            color: #ffffff;
+        }
+
+        .contact-content {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact-content p {
+            font-size: 1.15rem;
+            margin-bottom: 2.5rem;
+            color: #e2e8f0;
+            line-height: 1.8;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-btn {
+            background-color: #14b8a6;
+            color: #ffffff;
+            padding: 0.9rem 2rem;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background-color 0.3s, transform 0.2s;
+            display: inline-block;
+        }
+
+        .contact-btn:hover {
+            background-color: #0d9488;
+            transform: translateY(-2px);
+        }
+
+        .contact-btn-outline {
+            background-color: transparent;
+            color: #ffffff;
+            border: 2px solid rgba(255,255,255,0.5);
+        }
+
+        .contact-btn-outline:hover {
+            background-color: rgba(255,255,255,0.1);
+            border-color: #ffffff;
+        }
+
+        /* Education */
+        .education-item {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 1.5rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .education-item h3 {
+            color: #1a2332;
+            font-size: 1.2rem;
+        }
+
+        .education-item .school {
+            color: #64748b;
+            margin-top: 0.25rem;
+        }
+
+        .education-item .grad-date {
+            color: #14b8a6;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0f172a;
+            color: #94a3b8;
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .hero .subtitle { font-size: 1.2rem; }
+            section h2 { font-size: 2rem; }
+            .experience-header { flex-direction: column; }
+            .education-item { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#blog">Blog</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Reuben Lopez</h1>
+        <div class="subtitle">Data Scientist</div>
+        <div class="location">Houston, TX</div>
+        <p class="tagline">
+            I help teams measure what actually moves the needle — from experiment design and causal modeling to the data products that put those insights into production.
+        </p>
+        <div class="hero-cta">
+            <a href="#projects" class="hero-btn hero-btn-primary">View Projects</a>
+            <a href="#contact" class="hero-btn hero-btn-secondary">Get In Touch</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2>About Me</h2>
+            <div class="about-content">
+                <p class="about-intro">
+                    I'm a data scientist with 5 years of experience specializing in causal inference and experimentation. My work focuses on answering the questions that actually matter to business strategy: not just what's correlated with an outcome, but what's driving it — and what you can do about it.
+                </p>
+                <p class="about-secondary">
+                    I have the technical range to own the full data product lifecycle — from building pipelines and data models in SQL and dbt, to deploying statistical and ML models in Python, to surfacing insights through dashboards and Streamlit apps. I'm an effective cross-functional partner who translates complex findings into clear recommendations for product, engineering, and operations teams.
+                </p>
+
+                <div class="competencies">
+                    <div class="competency-card">
+                        <h3>Causal Inference</h3>
+                        <ul>
+                            <li>A/B Testing & Experiment Design</li>
+                            <li>Uplift Modeling</li>
+                            <li>Propensity Score Matching</li>
+                            <li>Quasi-Experimental Methods</li>
+                            <li>Impact Measurement</li>
+                        </ul>
+                    </div>
+                    <div class="competency-card">
+                        <h3>Technical Stack</h3>
+                        <ul>
+                            <li>SQL (Advanced) · Snowflake</li>
+                            <li>Python · pandas · scikit-learn</li>
+                            <li>statsmodels · dbt</li>
+                            <li>Data Pipelines & Automation</li>
+                            <li>Data Quality Frameworks</li>
+                        </ul>
+                    </div>
+                    <div class="competency-card">
+                        <h3>Analytics & Products</h3>
+                        <ul>
+                            <li>Cohort & Funnel Analysis</li>
+                            <li>Statistical Modeling & Forecasting</li>
+                            <li>Tableau · Sigma · Streamlit</li>
+                            <li>Dashboard Development</li>
+                            <li>Stakeholder Communication</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience">
+        <div class="container">
+            <h2>Experience</h2>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <h3>Data Scientist</h3>
+                    <span class="duration">January 2023 – Present</span>
+                </div>
+                <div class="company">Capture Higher Education</div>
+                <ul>
+                    <li>Build causal inference models using uplift modeling and propensity score methods to measure which interventions drive user outcomes and inform program strategy</li>
+                    <li>Design and analyze A/B tests to evaluate program changes, define success metrics, and quantify impact</li>
+                    <li>Develop statistical and ML models in Python to forecast outcomes, identify patterns, and support decision-making</li>
+                    <li>Build and maintain dashboards in Streamlit and Sigma to track performance metrics and surface insights</li>
+                    <li>Partner with Product, Engineering, and Operations to translate data into actionable recommendations</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <h3>Data Analyst</h3>
+                    <span class="duration">March 2022 – January 2023</span>
+                </div>
+                <div class="company">Capture Higher Education</div>
+                <ul>
+                    <li>Analyzed user funnels and retention patterns to identify drop-off points and inform strategy</li>
+                    <li>Built data pipelines in SQL and Python to integrate data from multiple platforms into unified datasets</li>
+                    <li>Developed features for predictive models through statistical analysis of user behavior and segmentation</li>
+                    <li>Created data quality monitoring and documentation to ensure accuracy and reproducibility</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <h3>Data Analyst</h3>
+                    <span class="duration">January 2021 – February 2022</span>
+                </div>
+                <div class="company">PPC Insulators</div>
+                <ul>
+                    <li>Built forecasting models in Python and SQL, improving prediction accuracy by 15%</li>
+                    <li>Created dashboards and reports tracking KPIs, translating data into clear insights for stakeholders</li>
+                    <li>Automated reporting workflows, reducing manual effort by 10+ hours weekly</li>
+                </ul>
+            </div>
+
+            <div class="education-item">
+                <div>
+                    <h3>Bachelor of Science, Data Science</h3>
+                    <div class="school">University of Houston-Downtown</div>
+                </div>
+                <div class="grad-date">December 2020</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="container">
+            <h2>Projects</h2>
+            <div class="projects-grid">
+                <div class="placeholder-card">
+                    Projects coming soon — currently building out portfolio projects in causal inference and product analytics. Check back shortly or follow along on GitHub.
+                </div>
+
+                <!-- Uncomment and fill in when projects are ready:
+
+                <div class="project-card">
+                    <h3>Uplift Modeling for Targeted Marketing</h3>
+                    <p>Compared meta-learner approaches (S-learner, T-learner, X-learner, causal forests) on the Hillstrom email marketing dataset to identify which customers benefit most from treatment. Demonstrated ROI improvement from targeting high-uplift individuals vs. random targeting.</p>
+                    <div class="project-tags">
+                        <span class="tag">Causal Inference</span>
+                        <span class="tag">Python</span>
+                        <span class="tag">Uplift Modeling</span>
+                        <span class="tag">A/B Testing</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link">→ GitHub</a>
+                        <a href="#" class="project-link">→ Write-up</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <h3>Funnel Optimization with Causal Impact</h3>
+                    <p>End-to-end product funnel analysis using DiD and regression discontinuity to measure the causal impact of product changes. Built segmentation model to identify which user segments respond differently to interventions.</p>
+                    <div class="project-tags">
+                        <span class="tag">Product Analytics</span>
+                        <span class="tag">DiD</span>
+                        <span class="tag">SQL</span>
+                        <span class="tag">Python</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link">→ GitHub</a>
+                        <a href="#" class="project-link">→ Write-up</a>
+                    </div>
+                </div>
+
+                -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog">
+        <div class="container">
+            <h2>Blog</h2>
+            <div class="blog-grid">
+                <div class="blog-card">
+                    <div class="date">Coming Soon</div>
+                    <h3>Why Correlation Isn't Enough: A Practical Intro to Causal Inference</h3>
+                    <p>Most data science work stops at correlation. Here's why that's a problem for anyone trying to make decisions — and how causal methods change the game.</p>
+                    <span class="read-more">Coming soon →</span>
+                </div>
+                <div class="blog-card">
+                    <div class="date">Coming Soon</div>
+                    <h3>Meta-Learners Explained: S, T, X, and Causal Forests</h3>
+                    <p>A practical breakdown of the most common uplift modeling approaches, when to use each, and what the tradeoffs look like in a real dataset.</p>
+                    <span class="read-more">Coming soon →</span>
+                </div>
+                <div class="blog-card">
+                    <div class="date">Coming Soon</div>
+                    <h3>Running Experiments When You Can't Randomize</h3>
+                    <p>Lessons from applying quasi-experimental methods in production — propensity score matching, DiD, and synthetic controls for when a true RCT isn't possible.</p>
+                    <span class="read-more">Coming soon →</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Get In Touch</h2>
+            <div class="contact-content">
+                <p>
+                    I'm always open to connecting with fellow data scientists, product teams, and recruiters working on interesting causal inference and experimentation problems. Let's talk.
+                </p>
+                <div class="contact-links">
+                    <a href="mailto:rlacm10@icloud.com" class="contact-btn">Email Me</a>
+                    <a href="https://linkedin.com/in/reubenl10" class="contact-btn contact-btn-outline" target="_blank">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Reuben Lopez · Houston, TX · rlacm10@icloud.com</p>
+    </footer>
+
+</body>
+</html>
