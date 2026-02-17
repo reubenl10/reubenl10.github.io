@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gradient Descent from Scratch | Reuben Lopez</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #ffffff;
+        }
+
+        nav {
+            background-color: #1a2332;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 0.5rem 1.5rem;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            color: #14b8a6;
+        }
+
+        .post-header {
+            background: linear-gradient(135deg, #1a2332 0%, #2d3e50 100%);
+            color: #ffffff;
+            padding: 5rem 2rem 4rem;
+            text-align: center;
+        }
+
+        .post-header .category {
+            color: #14b8a6;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .post-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.3;
+        }
+
+        .post-header .meta {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+        }
+
+        .post-body {
+            max-width: 740px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .post-body p {
+            color: #475569;
+            font-size: 1.05rem;
+            line-height: 1.85;
+            margin-bottom: 1.5rem;
+        }
+
+        .post-body h2 {
+            color: #1a2332;
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin: 2.5rem 0 1rem;
+        }
+
+        .post-body h3 {
+            color: #1a2332;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 2rem 0 0.75rem;
+        }
+
+        .post-body ul, .post-body ol {
+            color: #475569;
+            font-size: 1.05rem;
+            line-height: 1.85;
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .post-body li {
+            margin-bottom: 0.4rem;
+        }
+
+        pre {
+            background: #1a2332;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1.5rem 0 2rem;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        code {
+            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+        }
+
+        p code, li code {
+            background: #f1f5f9;
+            color: #0d9488;
+            padding: 0.15em 0.4em;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .callout {
+            background: #f0fdfa;
+            border-left: 4px solid #14b8a6;
+            padding: 1.25rem 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1.5rem 0 2rem;
+            color: #134e4a;
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: #14b8a6;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
+
+        .back-link:hover {
+            color: #0d9488;
+        }
+
+        footer {
+            background: #1a2332;
+            color: #94a3b8;
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .post-header h1 { font-size: 1.8rem; }
+            .post-body { padding: 2.5rem 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="../index.html#about">About</a></li>
+            <li><a href="../index.html#experience">Experience</a></li>
+            <li><a href="../index.html#projects">Projects</a></li>
+            <li><a href="../index.html#blog">Blog</a></li>
+            <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <header class="post-header">
+        <div class="category">Machine Learning · From Scratch</div>
+        <h1>Gradient Descent from Scratch</h1>
+        <div class="meta">Reuben Lopez &nbsp;·&nbsp; January 2021</div>
+    </header>
+
+    <article class="post-body">
+        <a href="../index.html#blog" class="back-link">← Back to Blog</a>
+
+        <p>
+            One of the first algorithms I implemented when learning ML was gradient descent. It sits underneath nearly every model worth knowing — linear regression, logistic regression, neural networks — and once you understand it intuitively, a lot of other things click into place.
+        </p>
+
+        <h2>The Problem It Solves</h2>
+        <p>
+            Say you have a dataset and you want to fit a line through it. You need to find the slope and intercept (your parameters, or <em>theta</em>) that minimize some error — typically mean squared error. One way to do this is with the normal equation, a closed-form linear algebra solution:
+        </p>
+
+        <pre><code>theta_best = np.linalg.inv(X_b.T @ X_b) @ (X_b.T) @ y</code></pre>
+
+        <p>
+            This is exact and fast for small datasets. But as your feature space grows, inverting that matrix becomes expensive. That's where gradient descent comes in — it finds the minimum iteratively instead of all at once.
+        </p>
+
+        <h2>The Core Idea</h2>
+        <p>
+            Gradient descent works by repeatedly nudging your parameters in the direction that reduces the loss. At each step, you compute the gradient of the loss function with respect to your parameters and take a small step opposite to it.
+        </p>
+        <p>
+            The gradient of mean squared error for linear regression is:
+        </p>
+        <pre><code>gradients = (2 / m) * X_b.T @ (X_b @ theta - y)</code></pre>
+        <p>
+            And the parameter update is just:
+        </p>
+        <pre><code>theta = theta - eta * gradients</code></pre>
+        <p>
+            Where <code>eta</code> is the <strong>learning rate</strong> — how big a step you take each iteration. Too large and you overshoot the minimum; too small and convergence is painfully slow.
+        </p>
+
+        <h2>Full Implementation</h2>
+        <p>
+            Here's the full loop I wrote for my notebook. I generated 200 synthetic data points, initialized theta randomly, and iterated 1,000 times with a learning rate of 0.1:
+        </p>
+
+        <pre><code>import numpy as np
+
+# Generate synthetic data
+np.random.seed(42)
+X = 2 * np.random.rand(200, 1)
+y = 4 + 3 * X + np.random.randn(200, 1)
+
+# Add bias term (column of ones)
+X_b = np.c_[np.ones((200, 1)), X]
+
+# Hyperparameters
+eta = 0.1
+n_iterations = 1000
+m = len(X_b)
+
+# Random initialization
+theta = np.random.randn(2, 1)
+
+# Gradient descent loop
+for iteration in range(n_iterations):
+    gradients = 2 / m * X_b.T @ (X_b @ theta - y)
+    theta = theta - eta * gradients
+
+print(theta)  # Should be close to [4, 3]</code></pre>
+
+        <h2>Watching It Converge</h2>
+        <p>
+            The most satisfying part of this experiment was visualizing the line at different iterations. At iteration 10 the fit is rough, at 100 it's noticeably better, and by 1,000 it's nearly indistinguishable from the normal equation solution.
+        </p>
+
+        <div class="callout">
+            The more iterations you run, the closer you get to the optimal parameters — gradient descent is converging toward the global minimum of the convex loss surface.
+        </div>
+
+        <h2>Why the Learning Rate Matters</h2>
+        <p>
+            I ran a few experiments with different <code>eta</code> values to see the effect:
+        </p>
+        <ul>
+            <li><strong>eta = 0.01</strong> — converges but very slowly; you'd need far more iterations</li>
+            <li><strong>eta = 0.1</strong> — clean convergence, hits a good solution around 1,000 iterations</li>
+            <li><strong>eta = 0.5</strong> — can overshoot and diverge, especially early on</li>
+        </ul>
+        <p>
+            In practice, tuning the learning rate is one of the first things you do when a model isn't training well.
+        </p>
+
+        <h2>Batch vs. Stochastic</h2>
+        <p>
+            What I implemented above is <strong>batch gradient descent</strong> — it uses the full dataset to compute each gradient update. This is stable but slow on large datasets.
+        </p>
+        <p>
+            <strong>Stochastic gradient descent (SGD)</strong> updates on one sample at a time, which is much faster per step but introduces noise. <strong>Mini-batch gradient descent</strong> splits the difference — compute gradients on small random batches. That's what most modern deep learning frameworks use under the hood.
+        </p>
+
+        <h2>Takeaway</h2>
+        <p>
+            Implementing gradient descent from scratch made it concrete in a way that reading about it never quite did. You see exactly how parameters change each step, what the learning rate does, and why the algorithm works at all. If you're learning ML, I'd strongly recommend doing this exercise before you rely on library implementations.
+        </p>
+
+        <p>
+            The full notebook is on <a href="https://github.com/reubenl10/Machine-Learning-Algs-From-Scatch" style="color:#14b8a6;font-weight:600;">GitHub</a>.
+        </p>
+    </article>
+
+    <footer>
+        <p>&copy; 2026 Reuben Lopez · Houston, TX · rlacm10@icloud.com</p>
+    </footer>
+
+</body>
+</html>
