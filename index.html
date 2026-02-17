@@ -358,7 +358,10 @@
             padding: 2rem;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             transition: transform 0.3s, box-shadow 0.3s;
-            cursor: pointer;
+            border-top: 3px solid #14b8a6;
+            display: block;
+            text-decoration: none;
+            color: inherit;
         }
 
         .blog-card:hover {
@@ -625,6 +628,7 @@
                 </ul>
             </div>
 
+            <h3 style="max-width:900px; margin: 3rem auto 1.5rem; color:#1a2332; font-size:1.6rem; font-weight:700;">Education</h3>
             <div class="education-item">
                 <div>
                     <h3>Bachelor of Science, Data Science</h3>
@@ -686,24 +690,24 @@
         <div class="container">
             <h2>Blog</h2>
             <div class="blog-grid">
-                <div class="blog-card" onclick="location.href='blog/gradient-descent.html'" style="cursor:pointer;">
+                <a href="blog/gradient-descent.html" class="blog-card">
                     <div class="date">January 2021</div>
                     <h3>Gradient Descent from Scratch</h3>
                     <p>Implementing gradient descent with nothing but NumPy — comparing it to the closed-form normal equation and watching parameters converge over 1,000 iterations.</p>
-                    <a href="blog/gradient-descent.html" class="read-more">Read post →</a>
-                </div>
-                <div class="blog-card" onclick="location.href='blog/decision-trees.html'" style="cursor:pointer;">
+                    <span class="read-more">Read post →</span>
+                </a>
+                <a href="blog/decision-trees.html" class="blog-card">
                     <div class="date">January 2021</div>
                     <h3>Decision Trees from Scratch</h3>
                     <p>How decision trees partition feature space through a sequence of threshold questions — applied to social network ad data to predict whether a user will purchase.</p>
-                    <a href="blog/decision-trees.html" class="read-more">Read post →</a>
-                </div>
-                <div class="blog-card" onclick="location.href='blog/polynomial-regression.html'" style="cursor:pointer;">
+                    <span class="read-more">Read post →</span>
+                </a>
+                <a href="blog/polynomial-regression.html" class="blog-card">
                     <div class="date">January 2021</div>
                     <h3>Polynomial Regression from Scratch</h3>
                     <p>Why linear regression fails on curved data and how polynomial feature transforms fix it — while keeping the problem linear in the parameters.</p>
-                    <a href="blog/polynomial-regression.html" class="read-more">Read post →</a>
-                </div>
+                    <span class="read-more">Read post →</span>
+                </a>
             </div>
         </div>
     </section>
