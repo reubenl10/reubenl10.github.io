@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decision Trees from Scratch | Reuben Lopez</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #ffffff;
+        }
+
+        nav {
+            background-color: #1a2332;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 0.5rem 1.5rem;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            color: #14b8a6;
+        }
+
+        .post-header {
+            background: linear-gradient(135deg, #1a2332 0%, #2d3e50 100%);
+            color: #ffffff;
+            padding: 5rem 2rem 4rem;
+            text-align: center;
+        }
+
+        .post-header .category {
+            color: #14b8a6;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .post-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.3;
+        }
+
+        .post-header .meta {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+        }
+
+        .post-body {
+            max-width: 740px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .post-body p {
+            color: #475569;
+            font-size: 1.05rem;
+            line-height: 1.85;
+            margin-bottom: 1.5rem;
+        }
+
+        .post-body h2 {
+            color: #1a2332;
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin: 2.5rem 0 1rem;
+        }
+
+        .post-body h3 {
+            color: #1a2332;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 2rem 0 0.75rem;
+        }
+
+        .post-body ul, .post-body ol {
+            color: #475569;
+            font-size: 1.05rem;
+            line-height: 1.85;
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .post-body li {
+            margin-bottom: 0.4rem;
+        }
+
+        pre {
+            background: #1a2332;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1.5rem 0 2rem;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        code {
+            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+        }
+
+        p code, li code {
+            background: #f1f5f9;
+            color: #0d9488;
+            padding: 0.15em 0.4em;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .callout {
+            background: #f0fdfa;
+            border-left: 4px solid #14b8a6;
+            padding: 1.25rem 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1.5rem 0 2rem;
+            color: #134e4a;
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .tree-diagram {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0 2rem;
+            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+            font-size: 0.88rem;
+            color: #334155;
+            line-height: 1.8;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: #14b8a6;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
+
+        .back-link:hover {
+            color: #0d9488;
+        }
+
+        footer {
+            background: #1a2332;
+            color: #94a3b8;
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .post-header h1 { font-size: 1.8rem; }
+            .post-body { padding: 2.5rem 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="../index.html#about">About</a></li>
+            <li><a href="../index.html#experience">Experience</a></li>
+            <li><a href="../index.html#projects">Projects</a></li>
+            <li><a href="../index.html#blog">Blog</a></li>
+            <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <header class="post-header">
+        <div class="category">Machine Learning · From Scratch</div>
+        <h1>Decision Trees from Scratch</h1>
+        <div class="meta">Reuben Lopez &nbsp;·&nbsp; January 2021</div>
+    </header>
+
+    <article class="post-body">
+        <a href="../index.html#blog" class="back-link">← Back to Blog</a>
+
+        <p>
+            Decision trees are one of those algorithms that feel immediately intuitive. You're just asking a series of yes/no questions about your data until you land on an answer. But behind that simplicity is a principled way of partitioning feature space — and understanding it makes ensemble methods like random forests and gradient boosted trees much easier to reason about.
+        </p>
+
+        <h2>The Dataset</h2>
+        <p>
+            For this notebook I used a social network advertising dataset. The goal is to predict whether a user purchased a product (binary outcome) based on two features:
+        </p>
+        <ul>
+            <li><strong>Age</strong> — how old the user is</li>
+            <li><strong>EstimatedSalary</strong> — their approximate annual income</li>
+        </ul>
+        <p>
+            Two features and a binary label makes this easy to visualize — you can literally draw the decision boundaries on a 2D plot.
+        </p>
+
+        <h2>What a Decision Tree Does</h2>
+        <p>
+            The main goal is to partition the feature space into regions that classify the data as accurately as possible. At each internal node, the algorithm asks a question like "Is Age &gt; 43?" and routes samples left or right. At the leaf nodes, a class label is assigned based on the majority class of samples that landed there.
+        </p>
+
+        <div class="callout">
+            A decision tree is essentially a sequence of threshold questions on your features, learned automatically from the training data by finding the splits that maximize class purity at each step.
+        </div>
+
+        <h2>Building the Tree</h2>
+        <p>
+            The key hyperparameter I experimented with was <code>max_depth</code>. Deeper trees can fit the training data more precisely, but they tend to overfit — the splits become specific to noise in the training set rather than real signal.
+        </p>
+        <p>
+            I capped the depth at 2, which forces the model to find the two most informative splits. Here's the core of the implementation:
+        </p>
+
+        <pre><code>from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+
+# Split data
+X_train, X_test, y_train, y_test = train_test_split(
+    features, labels, test_size=0.25, random_state=0
+)
+
+# Fit tree with depth limit
+tree_clf = DecisionTreeClassifier(max_depth=2)
+tree_clf.fit(X_train, y_train)
+
+# Predict
+y_pred = tree_clf.predict(X_test)</code></pre>
+
+        <h2>The Resulting Tree</h2>
+        <p>
+            With <code>max_depth=2</code>, the tree only has room for two levels of questions. On this dataset, it learned something like:
+        </p>
+
+        <div class="tree-diagram">
+Is Age &lt;= 43?<br>
+├── Yes → Is EstimatedSalary &lt;= 88,500?<br>
+│         ├── Yes → Not Purchased (class 0)<br>
+│         └── No  → Purchased (class 1)<br>
+└── No  → Is EstimatedSalary &lt;= 72,000?<br>
+          ├── Yes → Not Purchased (class 0)<br>
+          └── No  → Purchased (class 1)
+        </div>
+
+        <p>
+            The pattern makes real-world sense: older users with higher salaries are more likely to purchase. The tree discovered this structure entirely from the data.
+        </p>
+
+        <h2>Advantages</h2>
+        <ul>
+            <li>Simple to understand and interpret — you can follow the path a prediction takes</li>
+            <li>Handles both numerical and categorical features natively</li>
+            <li>Requires minimal data preprocessing (no scaling needed)</li>
+            <li>Results can be validated statistically at each split</li>
+        </ul>
+
+        <h2>Disadvantages</h2>
+        <ul>
+            <li>Can be unstable — small changes in the data can produce a very different tree</li>
+            <li>Prone to overfitting without depth constraints or pruning</li>
+            <li>Creates biased trees when one class heavily dominates the dataset</li>
+            <li>Axis-aligned splits mean diagonal decision boundaries require many nodes</li>
+        </ul>
+
+        <h2>Why This Matters Beyond Decision Trees</h2>
+        <p>
+            Decision trees are the base learner for two of the most powerful algorithms in tabular ML: random forests (parallel ensembles of trees with bootstrap sampling) and gradient boosted trees (sequential ensembles where each tree corrects the previous one's errors). Getting comfortable with how a single tree works — how it splits, what purity means, how depth controls complexity — makes both of those much easier to understand and tune.
+        </p>
+
+        <p>
+            The full notebook is on <a href="https://github.com/reubenl10/Machine-Learning-Algs-From-Scatch" style="color:#14b8a6;font-weight:600;">GitHub</a>.
+        </p>
+    </article>
+
+    <footer>
+        <p>&copy; 2026 Reuben Lopez · Houston, TX · rlacm10@icloud.com</p>
+    </footer>
+
+</body>
+</html>
